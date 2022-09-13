@@ -1,0 +1,58 @@
+# Table of Contents Generation (TOC)
+
+I maintain a number of different songbook PDFs the source of which are typically a file directory
+containing a set of mostly single page PDFs for each song.
+I use [`pdftk`](https://www.pdflabs.com/docs/pdftk-cli-examples/) to compile these song
+files into the songbook. However I would like to generate a table of contents listing the songs and
+their page numbers to be included in the songbook. This python script meets that requirement by
+consuming the list of song files, using the file names as the song titles, and outputing a set of
+TOC PDFs to the same directory.
+
+The script makes certain assumptions about the structure of the song filenames. These assumptions
+along with general usage are detailed in the script's help. Read this help by running
+
+```sh
+docker run msb140610/toc:$VERSION --help
+```
+
+Note that the current version is
+
+```sh
+VERSION=0.1
+```
+
+Note that a [Docker compose script project](https://github.com/msb/compile-songbook) has been
+created that orchestrates songbook creation using this project, along with
+[`rclone`](https://rclone.org/) and [`pdftk`](https://www.pdflabs.com/docs/pdftk-cli-examples/).
+
+## Development
+
+Change requests are accepted for this project. Once you have checked out the project and made your
+changes, to test these changes locally before you make the CR
+you can run the script with docker using
+
+```sh
+docker run --rm -u $(id -u):$(id -g) -v $PWD:/app msb140610/toc:$VERSION /app/example
+```
+
+This will run the script against the song files in the local `example` sub-folder
+and output the TOC pdf in the same folder.
+
+Alternatively, if you are making dependency changes, you can build your own docker image using
+
+```sh
+docker build -t toc-dev .
+
+# .. and then run the script using
+
+docker run --rm -u $(id -u):$(id -g) -v $PWD:/app toc-dev /app/example
+```
+
+To maintain code quality you should also run [`mypy`](https://mypy.readthedocs.io/en/stable/) and
+[`flake8`](https://flake8.pycqa.org/en/latest/) to check for warnings/errors as follows
+
+```sh
+docker run --entrypoint mypy -v $PWD:/app toc-dev *.py
+
+docker run --entrypoint flake8 -v $PWD:/app toc-dev
+```
