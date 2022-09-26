@@ -3,12 +3,14 @@ on:
   push:
     branches:
       - 'action-start'
-    # tags:
-    #   - *
+    tags:
+      - *
 
 jobs:
   docker:
     environment: default
+    env:
+
     runs-on: ubuntu-latest
     steps:
       -
@@ -28,4 +30,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: msb140610/toc:0.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${GITHUB_REF#refs/*/}
