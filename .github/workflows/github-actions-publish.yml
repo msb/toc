@@ -4,10 +4,11 @@ on:
     branches:
       - 'action-start'
     tags:
-      - '*'
+      - '*.*'
 
 jobs:
   docker:
+    # required because DOCKERHUB_* secrets are defined in this environment
     environment: default
     runs-on: ubuntu-latest
     steps:
