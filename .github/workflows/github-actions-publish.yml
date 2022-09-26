@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show GITHUB_REF value
-        run: echo "(${GITHUB_REF}) (${GITHUB_REF#refs/*/})"
+        run: echo "(${GITHUB_REF}) (${GITHUB_REF#refs/*/}) (${GITHUB_REF##*/}) (${GITHUB_REPOSITORY}) (${GITHUB_REPOSITORY##*/})"
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -30,4 +30,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${GITHUB_REF#refs/*/}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${GITHUB_REPOSITORY##*/}:${GITHUB_REF##*/}
