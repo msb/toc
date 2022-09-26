@@ -1,8 +1,6 @@
 name: Publish Image To DockerHub
 on:
   push:
-    branches:
-      - 'action-start'
     tags:
       - '*.*'
 
