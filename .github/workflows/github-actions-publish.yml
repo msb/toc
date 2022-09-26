@@ -9,8 +9,6 @@ on:
 jobs:
   docker:
     environment: default
-    env:
-
     runs-on: ubuntu-latest
     steps:
       -
