@@ -11,6 +11,8 @@ jobs:
     environment: default
     runs-on: ubuntu-latest
     steps:
+      - name: Show GITHUB_REF value
+        run: echo "(${GITHUB_REF}) (${GITHUB_REF#refs/*/})"
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
