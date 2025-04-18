@@ -16,10 +16,18 @@ running
 docker run --rm msb140610/toc:$VERSION --help
 ```
 
+```powershell
+docker run --rm msb140610/toc:$env:VERSION --help
+```
+
 Note that the current version is
 
 ```sh
-VERSION=0.1
+VERSION=0.2
+```
+
+```powershell
+$env:VERSION=0.2
 ```
 
 Note also that a [Docker compose script project](https://github.com/msb/compile-songbook) has been
@@ -36,6 +44,10 @@ using
 docker run --rm -u $(id -u):$(id -g) -v $PWD:/app msb140610/toc:$VERSION /app/example
 ```
 
+```powershell
+docker run --rm -v ${pwd}:/app msb140610/toc:$env:VERSION /app/example
+```
+
 This will run the script against the song files in the local `example` sub-folder
 and output the TOC pdf in the same folder.
 
@@ -43,17 +55,29 @@ Alternatively, if you are making dependency changes, you can build your own dock
 
 ```sh
 docker build -t toc-dev .
+```
 
-# .. and then run the script using
+.. and then run the script using
 
+```sh
 docker run --rm -u $(id -u):$(id -g) -v $PWD:/app toc-dev /app/example
+```
+
+```powershell
+docker run --rm -v ${pwd}:/app toc-dev /app/example
 ```
 
 To maintain code quality you should also run [`mypy`](https://mypy.readthedocs.io/en/stable/) and
 [`flake8`](https://flake8.pycqa.org/en/latest/) to check for warnings/errors as follows
 
 ```sh
-docker run --rm --entrypoint mypy -v $PWD:/app toc-dev *.py
-
 docker run --rm --entrypoint flake8 -v $PWD:/app toc-dev
+
+docker run --rm --entrypoint mypy -v $PWD:/app toc-dev *.py
+```
+
+```powershell
+docker run --rm --entrypoint flake8 -v ${pwd}:/app toc-dev
+
+docker run --rm --entrypoint mypy -v ${pwd}:/app toc-dev .
 ```

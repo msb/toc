@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """
 Produces a table of contents for the set of PDF files found in <pages_dir> (each assumed to be a
@@ -128,7 +128,7 @@ def get_entries(pages_dir: str) -> Tuple[int, List[Tuple[str, int]]]:
     """
     title_page_length, entries = (0, [])
 
-    for file_name in sorted(os.listdir(pages_dir)):
+    for file_name in sorted(os.listdir(pages_dir), key=lambda k: k.lower()):
         file_root, file_ext = os.path.splitext(file_name)
         if file_ext == '.pdf':
             file_root_parts = file_root.split('#')
