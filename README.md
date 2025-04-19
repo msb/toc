@@ -13,21 +13,25 @@ along with tool's general usage are detailed in the script's help. You can acces
 running
 
 ```sh
+# Linux
 docker run --rm msb140610/toc:$VERSION --help
 ```
 
 ```powershell
+# Windows
 docker run --rm msb140610/toc:$env:VERSION --help
 ```
 
 Note that the current version is
 
 ```sh
-VERSION=0.2
+# Linux
+VERSION=0.3
 ```
 
 ```powershell
-$env:VERSION=0.2
+# Windows
+$env:VERSION=0.3
 ```
 
 Note also that a [Docker compose script project](https://github.com/msb/compile-songbook) has been
@@ -41,10 +45,12 @@ changes, to test these changes locally before you make the CR you can run the sc
 using
 
 ```sh
+# Linux
 docker run --rm -u $(id -u):$(id -g) -v $PWD:/app msb140610/toc:$VERSION /app/example
 ```
 
 ```powershell
+# Windows
 docker run --rm -v ${pwd}:/app msb140610/toc:$env:VERSION /app/example
 ```
 
@@ -60,10 +66,12 @@ docker build -t toc-dev .
 .. and then run the script using
 
 ```sh
-docker run --rm -u $(id -u):$(id -g) -v $PWD:/app toc-dev /app/example
+# Linux
+sdocker run --rm -u $(id -u):$(id -g) -v $PWD:/app toc-dev /app/example
 ```
 
 ```powershell
+# Windows
 docker run --rm -v ${pwd}:/app toc-dev /app/example
 ```
 
@@ -71,13 +79,13 @@ To maintain code quality you should also run [`mypy`](https://mypy.readthedocs.i
 [`flake8`](https://flake8.pycqa.org/en/latest/) to check for warnings/errors as follows
 
 ```sh
+# Linux
 docker run --rm --entrypoint flake8 -v $PWD:/app toc-dev
-
 docker run --rm --entrypoint mypy -v $PWD:/app toc-dev *.py
 ```
 
 ```powershell
+# Windows
 docker run --rm --entrypoint flake8 -v ${pwd}:/app toc-dev
-
 docker run --rm --entrypoint mypy -v ${pwd}:/app toc-dev .
 ```

@@ -4,7 +4,6 @@
 Produces a table of contents for the set of PDF files found in <pages_dir> (each assumed to be a
 chapter). The title and number of pages of each PDF is inferred from the file name as follows:
 
-    - 00.{title}[#{no of pages}].pdf
     - {TOC entry}[#{no of pages}].pdf
     - {TOC entry}[#{no of pages}].pdf
     -  :
@@ -12,14 +11,13 @@ chapter). The title and number of pages of each PDF is inferred from the file na
 
 The TOC pages will be written to <pages_dir> and be named:
 
-    - 01.toc.pdf
-    - 02.toc.pdf
+    - 01.toc.html
+    - 02.toc.html
     -  :
 
 Note that:
     - if no of pages hashes is omitted, it is assumed to be 1.
-    - the order is alphabetic
-    - the file name in the title page is ignored
+    - the order is alphabetic (case insensitive)
 
 Usage:
   toc.py <pages_dir> [--toc-rows=<rows>] [--toc-cols=<cols>]
@@ -29,7 +27,7 @@ Options:
   -h --help          Show this screen.
   --toc-rows=<rows>  The max number of TOC rows [default: 50].
   --toc-cols=<cols>  The max number of TOC cols [default: 3].
-  <pages_dir>        FIXME
+  <pages_dir>        The folder containing the book pages.
 """
 
 import os
@@ -37,7 +35,6 @@ import os.path as path
 import math
 from typing import List, TextIO, Tuple
 from docopt import docopt
-from weasyprint import HTML
 
 # A CSS style sheet for the TOC.
 STYLE = """
@@ -80,10 +77,6 @@ def main(args):
             write_toc_html(
                 toc_html_fd, toc_rows, toc_cols, entries_per_page, page, counted_entries
             )
-        # .. convert the HTML file to a PDF file
-        toc_pdf_name = path.join(pages_dir, f'{(page + 1):02d}.toc.pdf')
-        with open(toc_pdf_name, 'wb') as toc_pdf_fd:
-            HTML(toc_html_name).write_pdf(toc_pdf_fd)
 
 
 def write_toc_html(
